@@ -5,6 +5,7 @@ public class Project
 {
     public int ID { get; set; }
 
+    public string Name { get; set; }
     public string? Content { get; set; }
 
     public DateTime Date { get; set; }
@@ -19,11 +20,11 @@ public class Project
 
     public bool IsPublished { get; set; }
 
-    public bool IsDeleted { get; set; }
+    public bool Del { get; set; }
 
     public int ViewCount { get; set; }
 
-    public virtual Category Category { get; set; }
+    // public virtual Category Category { get; set; }
     public virtual ICollection<ProjectImage> ProjectImages { get; set; } = new List<ProjectImage>();
 
 }

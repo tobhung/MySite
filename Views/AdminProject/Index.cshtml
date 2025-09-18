@@ -1,0 +1,133 @@
+@model IEnumerable<MySite.Models.Project>
+
+@{
+    
+}
+
+<section>
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-12">
+                <h1>@ViewBag.PageTitle</h1>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-12">
+                <a href="@Url.Action("Create")">建立項目</a>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-12">
+               @foreach(var item in Model){
+                 <div class="row mb-2">
+                    <div class="col-12">
+                        <div class="card p-3">
+                            <div class="row row-cols-1 row-cols-lg-3 my-2">
+                                <div class="col" data-news-id="@item.ID">
+                                    @if(item.ProjectImages.Count() > 0){
+                                        var picID = item.ProjectImages.FirstOrDefault().FileID;
+                                        <img class="d-block img-fluid lazyload img-box upload" src="@Url.Action("Picture", "Member", new{area = "", ID = picID, width=150, height = 150,zoomType = "center"})">
+                                    }
+                                    else{
+                                        <div class="border img-box upload" style="width:150px; height:150px"></div>
+                                    }
+                                </div>
+                                <div class="col pt-2 pt-lg-0">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="flex flex-column">
+                                                @* <div class="mb-2">@item.</div> *@
+                                                <div class="mb-2">@item.Content</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="d-flex flex-column text-center">
+                                                <div class="mb-2">
+                                                    <a asp-action="Edit" asp-route-id="@item.ID">編輯</a> 
+                                                </div>
+                                                <div>
+                                                    <a asp-action="Delete" asp-route-id="@item.ID">刪除</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+               }
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Add this script to your view or in a separate JS file
+$(document).ready(function() {
+    // When the user clicks on an element with the 'upload' class
+    $('.upload').on('click', function() {
+        // Create a file input element
+        const fileInput = $('<input type="file" accept="image/*" style="display: none;">');
+        
+        // Add it to the body and trigger click
+        $('body').append(fileInput);
+        fileInput.trigger('click');
+        
+        // Get the news article ID from the page
+        // This assumes you have the news ID available somewhere, possibly in a data attribute
+        // You may need to adjust this based on how your page is structured
+        const newsId = $(this).closest('[data-news-id]').data('news-id');
+        
+        // Handle file selection
+        fileInput.on('change', function(e) {
+            if (this.files && this.files[0]) {
+                const file = this.files[0];
+                
+                // Create FormData object for AJAX upload
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('id', newsId);
+                
+                // Show loading indicator
+                const imgBox = $('.upload');
+                const originalContent = imgBox.html();
+                imgBox.html('<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>');
+                
+                // Send the AJAX request
+                $.ajax({
+                    url: '/Admin/Member/Upload',
+                    type: 'POST',
+                    data: formData,
+                    processData: false, // Don't process the files
+                    contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+                    success: function(response) {
+                        // If successful, update the image
+                        if (response && response.success) {
+                           location.reload();
+                        } else {
+                            // Show error message
+                            alert('Upload failed: ' + (response.message || 'Unknown error'));
+                            imgBox.html(originalContent);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Show error message
+                        alert('Upload failed: ' + error);
+                        imgBox.html(originalContent);
+                    },
+                    complete: function() {
+                        // Remove the temporary file input
+                        fileInput.remove();
+                    }
+                });
+            }
+            
+            // Remove the temporary file input if no file was selected
+            fileInput.remove();
+        });
+    });
+});
+</script>

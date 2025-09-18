@@ -479,3 +479,4 @@ C:\Users\User\Desktop\MySite\obj\Debug\net8.0\refint\MySite.dll
 C:\Users\User\Desktop\MySite\obj\Debug\net8.0\MySite.pdb
 C:\Users\User\Desktop\MySite\obj\Debug\net8.0\MySite.genruntimeconfig.cache
 C:\Users\User\Desktop\MySite\obj\Debug\net8.0\ref\MySite.dll
+C:\Users\User\Desktop\MySite\bin\Debug\net8.0\Microsoft.AspNetCore.NodeServices.dll

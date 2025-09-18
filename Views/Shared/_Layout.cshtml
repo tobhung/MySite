@@ -1,4 +1,17 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Components
+@{
+   
+    //var css = controller == "Home" ? "d-none" : "" ;
+    var data = new ImportMapDefinition(
+    new Dictionary<string, string>
+    {
+        { "ckeditor5", "/lib/ckeditor5/ckeditor5.js" },
+        { "ckeditor5/", "/lib/ckeditor5/" },
+    }, null, null);
+}
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,7 +19,7 @@
     <title>@ViewData["Title"] - MySite</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/MySite.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/ckeditor5/ckeditor5.css" />
 </head>
 <body>
     <header>
@@ -44,6 +57,9 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script type="importmap" asp-importmap="@data"></script>
+    <script src="~/js/ckeditor-config.js" type="module" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

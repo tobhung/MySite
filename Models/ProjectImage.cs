@@ -14,6 +14,8 @@ public class ProjectImage
     public string? Caption { get; set; }
         
     public bool IsPrimary { get; set; } = false;
+
+    public bool Del { get; set; }
     public int Sort { get; set; }
     
     public virtual Project Project { get; set; }

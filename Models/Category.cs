@@ -10,12 +10,12 @@ public class Category
 
     public string? Description { get; set; }
 
-    public bool IsDeleted { get; set; }
+    public bool Del { get; set; }
 
     public DateTime Created { get; set; }
 
     public int Sort { get; set; }
 
-    public virtual ICollection<Project> Projects{ get; set; }
+    // public virtual ICollection<Project> Projects{ get; set; }
 
 }
